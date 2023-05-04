@@ -1,12 +1,14 @@
+//We declare today as a Date object, set it to midnight to avoid issues
+//and convert it for future needs
 let today = new Date();
 today.setHours(2, 0, 0, 0)
 let todayString = Date.parse(today);
-console.log(todayString);
+todayDate = today.toDateString();
 
-
+//We display today date
 const todayDisplayer = document.getElementById('today-displayer');
-todayDisplayer.textContent = today;
-const todayTimestampDisplayer = document.getElementById('today-tumestamp-displayer');
+todayDisplayer.textContent = todayDate;
+const todayTimestampDisplayer = document.getElementById('today-timestamp-displayer');
 todayTimestampDisplayer.textContent = todayString;
 
 //we get existing html elements
@@ -32,7 +34,7 @@ const ageHoursDetailedSpan = document.createElement('span');
 const ageMinutesDetailedSpan = document.createElement('span');
 
 
-
+//for easily adding our content
 function createHtml() {
     answerBlock = mainContainer.append(answerDiv);
     answerDiv.appendChild(answerPara);
@@ -42,6 +44,7 @@ function createCalculatorDiv() {
     answerDiv.appendChild(answerPara);
 }
 
+//We give a rule to know if a year is bissextile or not
 function isBissextile(birthYear) {
     if(birthYear % 4 === 0) {
         return true;
@@ -50,7 +53,8 @@ function isBissextile(birthYear) {
         return false;
     }
 }
-function is31j(birthMonth) {
+//We give a rule to indicate which month are 31 days long
+function is31d(birthMonth) {
     if (birthMonth === 0 || birthMonth ===2 || birthMonth ===4 || birthMonth ===6 || birthMonth ===7 || birthMonth ===9 || birthMonth ===11) {
         return true;
     }
@@ -58,23 +62,15 @@ function is31j(birthMonth) {
         return false;
     }
 }
-
-function isBissextileFebruary(birthYear, birthMonth) {
-    if (isBissextile(birthYear) && birthMonth ===1) {
-        return true;
-    }
-    else {
-        return false;
-    }
-}
+//This function indicates us how much days in a month, depending of the month and the year
 function daysThisMonth(birthYear, birthMonth) {
-    if (isBissextile(birthYear) && (is31j(birthMonth))) {
+    if (isBissextile(birthYear) && (is31d(birthMonth))) {
         return 31;
     } 
-    if (isBissextile(birthYear) && (birthMonth === 1)) {
+    else if (isBissextile(birthYear) && (birthMonth === 1)) {
         return 29;
     }
-    if (isBissextile(birthYear = false) && (birthMonth === 1)) {
+    else if (!isBissextile(birthYear) && (birthMonth === 1)) {
         return 28;
     }
     else {
@@ -82,7 +78,7 @@ function daysThisMonth(birthYear, birthMonth) {
     }
 }
 
-
+//This is the function which calculate your age
 function ageCalcul(yourBirthDate) {
     createHtml();
         answerBlock = mainContainer.append(answerDiv);
@@ -90,58 +86,54 @@ function ageCalcul(yourBirthDate) {
         answerPara.textContent = ("Vous êtes né le: ");
         answerPara.appendChild(answerSpan);
         var yourBirthDate = birthDateInput.value;
-
+        //we get the birth date of the input and convert it to an object to compare it with today date object 
         let yourBirthDateObject = new Date(yourBirthDate);
-        console.log(yourBirthDate);
-        console.log(yourBirthDateObject);
-        let yourBirthDateTimeString = Date.parse(yourBirthDate);
-        console.log(yourBirthDateTimeString);
-
-        answerSpan.textContent = (yourBirthDate);
+        let yourBirthDateTimeStamp = Date.parse(yourBirthDate);
+        let yourBirthDateShortDate = yourBirthDateObject.toDateString();
+        //We display submited birth date
+        answerSpan.textContent = (yourBirthDateShortDate);
         answerDiv.appendChild(dateStringPara);
         dateStringPara.textContent = ("Votre date de naissance en mode timestamp: ");
         dateStringPara.append(dateStringSpan);
-        dateStringSpan.textContent = yourBirthDateTimeString;
-        var yourAgeCalculated = todayString - yourBirthDateTimeString;
+        dateStringSpan.textContent = yourBirthDateTimeStamp;
+
+        //Only for fun, let's calculate and display our age in timestamp
+        var yourAgeCalculated = todayString - yourBirthDateTimeStamp;
 
         answerDiv.appendChild(ageCalculatedPara);
         ageCalculatedPara.textContent = ("Votre âge à l'instant t en mode timestamp: ");
         ageCalculatedPara.appendChild(ageCalculatedSpan);
         ageCalculatedSpan.textContent = (yourAgeCalculated);
 
+        //Now we get every part of the birth date (years month, day)...
         var birthYear = yourBirthDateObject.getUTCFullYear();
         var birthMonth = yourBirthDateObject.getUTCMonth();
         var birthDay = yourBirthDateObject.getUTCDate();
-        console.log(birthYear);
-        console.log(birthMonth);
-        console.log(birthDay);
     
-
+        //We also get every part of today date to compare it
         var todayDateObject = new Date();
         var todayYear = todayDateObject.getUTCFullYear();
         var todayMonth = todayDateObject.getUTCMonth();
-        var lastMonth = todayMonth - 1;
         var todayDay = todayDateObject.getUTCDate();
-        console.log(todayYear);
-        console.log(todayMonth);
-        console.log(todayDay);
+        //We define last month because we may need to know how long it was
+        var lastMonth = todayMonth - 1;
 
-        if (todayDay > daysThisMonth(todayMonth)) {
-            e.preventDefault();
-            console.log('bizarre');
-        }
-
+        
+        //if your birthday is later this year, so we can substract 1 more year while substracting today year and birth year
         if (todayMonth < birthMonth) {
             var ageYearsOld = todayYear - birthYear - 1;
-            var yourAgeMonthOld = 12 - todayMonth;
+            var yourAgeMonthOld = 12 - (birthMonth - todayMonth);
             
         }
+        // else your age in years and months is (today year and birth year) and (today month
+        // and birth month) substraction
         else {
             console.log("go");
             var ageYearsOld = todayYear - birthYear;
             var yourAgeMonthOld = todayMonth - birthMonth;
         }
-
+        //if birth day number is inferior to today, so we got to know how long was last month
+        //to calculate how many days to obtain same day number than today day
         if (todayDay < birthDay) {
             console.log("go");
             if (isBissextile(todayYear) && (todayMonth === 1)) {
@@ -155,22 +147,21 @@ function ageCalcul(yourBirthDate) {
             }
             else {
                 var yourAgeDaysOld = daysThisMonth(lastMonth, todayYear) - birthDay + todayDay;
+                //if today day is inferior than birth day, we must substract 1 month 
+                yourAgeMonthOld -= 1;
             console.log(daysThisMonth(lastMonth, todayYear) - todayDay);
-            }
-            
-        }
+            }            
+        }//if not, we only substract days
         else {
             yourAgeDaysOld = todayDay - birthDay;
-            
-            
         }
+
+        //now we know how much days old we are, we can know how much weeks this year
+        //and modulo gives us how many days in this week
         var yourAgeWeeksOld = Math.trunc(yourAgeDaysOld / 7);
         var yourAgeDaysOldEnd = yourAgeDaysOld % 7;
-        
-        console.log(ageYearsOld);
-        console.log(yourAgeMonthOld);
-        console.log(yourAgeDaysOld);
 
+        //Now we only need to display
         answerDiv.append(ageDetailedPara);
         ageDetailedPara.textContent = ("Vous avez ");
         ageDetailedPara.appendChild(ageDetailedSpan);
@@ -186,26 +177,26 @@ function ageCalcul(yourBirthDate) {
 }
 
 
-//we watch for form submitions
+//if not empty or today date or future date,
+//form submition will launch the ageCalcul function
 birthDateForm.addEventListener('submit', function(e) {
     e.preventDefault();
-    let yourBirthDateTimeString = Date.parse(birthDateInput.value);
+    let yourBirthDateTimeStamp = Date.parse(birthDateInput.value);
     if (birthDateInput.value == "") {
     console.log(birthDateInput.value);
 
         createHtml();
         answerPara.textContent = ("Il faut saisir une date");
     }
-
-
-    else if (todayString === yourBirthDateTimeString){
+    else if (todayString === yourBirthDateTimeStamp){
         createHtml();
         answerPara.textContent = ("Il faut saisir une autre date que celle du jour");
     }
-    else if (todayString < yourBirthDateTimeString){
+    else if (todayString < yourBirthDateTimeStamp){
         createHtml();
         answerPara.textContent = ("Vous êtes né dans le futur ???");
     }
+    
     else {
     console.log(birthDateInput.value);
 
@@ -213,18 +204,3 @@ birthDateForm.addEventListener('submit', function(e) {
         
     }
 })
-
-function errorBuster() {
-    // var birthYear = yourBirthDateObject.getUTCFullYear();
-    //     var birthMonth = yourBirthDateObject.getUTCMonth();
-    //     var birthDay = yourBirthDateObject.getUTCDate();
-    console.log(birthYear);
-    console.log(birthYear);
-
-    if (birthYear > todayYear) {
-        console.log("vu")
-    }
-
-
-
-}
