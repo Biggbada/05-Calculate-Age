@@ -1,14 +1,25 @@
 :root {
     font-size: 100%;
     color: antiquewhite;
-    font-family: sans-serif;
+    font-family: 'Bruno Ace SC', cursive;
 }
 
 body {
-    background-color: darkcyan;
+    background-color: rgb(7 7 7);
+}
+
+#first-container {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
 }
 
 #main-container {
+    background-image: url(pics/abstract-futuristic-bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    box-shadow: 5px -5px 88px 7px rgba(54, 140, 43, 0.50);;
     margin-left: auto;
     margin-right: auto;
     border: 1px solid antiquewhite;
@@ -18,14 +29,70 @@ body {
     display: flex;
     flex-flow: column wrap;
     justify-content: center;
-    margin-top: 25vh;
-    width: 60%;
+    width: 800px;
+    height: 480px;
+    z-index: 1;
 }
 
+#form-container {
+    background-color: rgba(62, 60, 60, 0.585);
+    opacity: 100%;
+}
+form {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
 #birth-date-input {
+    margin: 2rem;
     border: 1px solid antiquewhite;
     border-radius: 5px;
     width: 200px;
     height: 20px;
     padding: 10px;
+    font-family: 'Bruno Ace SC', cursive;
+    text-align: center;
+}
+
+#birth-date-input:focus-visible {
+    outline: 4px solid #368c2b;
+
+}
+
+#birth-date-input:hover {
+    outline: 4px solid #368c2b;
+
+}
+
+#submit-button {
+    display: none;
+}
+
+#submit-label {
+    margin-bottom: 2rem;
+    padding: .5rem;
+    color: black;
+    width: 300px;
+    height: fit-content;
+    border-radius: 10px;
+    border: 1px solid white;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+#submit-label:hover {
+    outline: 4px solid #368c2b;
+}
+
+#answer-div {
+    color: #368c2b;
+    font-size: 0.8rem;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8);
 }

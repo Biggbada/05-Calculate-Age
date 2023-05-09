@@ -1,7 +1,7 @@
 //We declare today as a Date object, set it to midnight to avoid issues
 //and convert it for future needs
 let today = new Date();
-today.setHours(2, 0, 0, 0)
+today.setHours(2, 0, 0, 0);
 let todayString = Date.parse(today);
 todayDate = today.toDateString();
 
@@ -19,6 +19,7 @@ const submitButton = document.getElementById('submit-button');
 
 //we will create new html elements
 const answerDiv = document.createElement('div');
+answerDiv.id = ('answer-div');
 const answerPara = document.createElement('p');
 const answerSpan = document.createElement('span');
 const dateStringPara = document.createElement('p');
@@ -26,7 +27,8 @@ const dateStringSpan = document.createElement('span');
 const ageCalculatedPara = document.createElement('p');
 const ageCalculatedSpan = document.createElement('span');
 const ageDetailedPara = document.createElement('p');
-const ageDetailedSpan  = document.createElement('span');
+const ageDetailedSpan  = document.createElement('span')
+ageDetailedSpan.id = ('bloc-annees');
 const ageMonthDetailedSpan = document.createElement('span');
 const ageWeeksDetailedSpan = document.createElement('span');
 const ageDaysDetailedSpan = document.createElement('span');
@@ -54,10 +56,13 @@ function isBissextile(birthYear) {
     }
 }
 //We give a rule to indicate which month are 31 days long
-function is31d(birthMonth) {
+function is31d(birthMonth, birthYear) {
     if (birthMonth === 0 || birthMonth ===2 || birthMonth ===4 || birthMonth ===6 || birthMonth ===7 || birthMonth ===9 || birthMonth ===11) {
         return true;
     }
+
+    // const daysInAMonth = [31,isBissextile(birthYear) ? 29 : 28,31,30,31,30,31,31,30,31,30,31];
+    // let days = daysInAMonth[birthMonth - 1 ];
     else {
         return false;
     }
@@ -125,8 +130,12 @@ function ageCalcul(yourBirthDate) {
             var yourAgeMonthOld = 12 - (birthMonth - todayMonth);
             
         }
-        // else your age in years and months is (today year and birth year) and (today month
-        // and birth month) substraction
+        else if (todayMonth == birthMonth && todayDay <= birthDay) {
+            console.log('ici');
+            var ageYearsOld = todayYear - birthYear - 1;
+            var yourAgeMonthOld = 11;
+            
+        }
         else {
             console.log("go");
             var ageYearsOld = todayYear - birthYear;
@@ -134,6 +143,7 @@ function ageCalcul(yourBirthDate) {
         }
         //if birth day number is inferior to today, so we got to know how long was last month
         //to calculate how many days to obtain same day number than today day
+        
         if (todayDay < birthDay) {
             console.log("go");
             if (isBissextile(todayYear) && (todayMonth === 1)) {
@@ -141,7 +151,7 @@ function ageCalcul(yourBirthDate) {
                 var yourAgeDaysOld = 29 - birthDay + todayDay;
                 console.log("go");
             }
-            if (isBissextile(todayYear = false) && (todayMonth === 1)) {
+            else if (isBissextile(todayYear = false) && (todayMonth === 1)) {
                 console.log("go");
                 var yourAgeDaysOld = 28 - birthDay + todayDay;
             }
@@ -162,17 +172,78 @@ function ageCalcul(yourBirthDate) {
         var yourAgeDaysOldEnd = yourAgeDaysOld % 7;
 
         //Now we only need to display
+
+
+        
         answerDiv.append(ageDetailedPara);
         ageDetailedPara.textContent = ("Vous avez ");
         ageDetailedPara.appendChild(ageDetailedSpan);
-        ageDetailedSpan.textContent = (ageYearsOld + " ans");
-        ageDetailedPara.appendChild(ageMonthDetailedSpan);
-        ageMonthDetailedSpan.textContent = (" et " + yourAgeMonthOld + " mois ");
-        ageDetailedPara.appendChild(ageWeeksDetailedSpan);
+        const place = document.getElementById('bloc-annees');
+        let i = 0;
+        console.log(ageYearsOld);
+        console.log(i);
+        place.textContent = (i);
+        
+        function pause(time) {
+            setTimeout(pause, time);
+        }
+        pause(3000);
+        console.log("la");
+        pause(3000);
+        pause(3000);
+        place.textContent = "hello";
+        pause(3000);
+        pause(3000);
+        pause(3000);
+        place.textContent = "bien ou bien";
+        function textRoller (elementToType, place) {
+            place.textContent = (i);
+            if (i < elementToType) {
+                pause(1000);
+                i++;place.textContent = (i);
+                setTimeout(textRoller, 1000);
+                textRoller((elementToType - i), place);
+                console.log('passage boucle');
+            }
+            else {
+                console.log('finito');
+            }
+
+        }
+
+        // textRoller(ageYearsOld, ageDetailedSpan);
+
+        // function typeWriter(elementToType, place) {
+        //         for (let i = 0; i < elementToType; i++) {
+        //                 console.log(i);
+        //                 place.textContent = (i);
+        //                 setTimeout(typeWriter, 10000);
+        //             } 
+        //         }
+                
+                // for (i = 0;i < ageYearsOld.toString.length; i++) {
+                    
+                //     setTimeout(function () {
+                //         ageDetailedSpan.textContent = (i);
+                //         console.log(i);
+                //         i++;
+                //         console.log(i);
+                //     }, 100); 
+                //    };
+
+
+
+
+
+                ageDetailedPara.appendChild(ageMonthDetailedSpan);
+                ageMonthDetailedSpan.textContent = (" et " + yourAgeMonthOld + " mois ");
+                ageDetailedPara.appendChild(ageWeeksDetailedSpan);
         ageWeeksDetailedSpan.textContent = (yourAgeWeeksOld + " semaines ");
         ageDetailedPara.appendChild(ageDaysDetailedSpan);
         ageDaysDetailedSpan.textContent = (yourAgeDaysOldEnd + " jours ");
         ageDetailedPara.appendChild(ageHoursDetailedSpan);
+
+          
 
 }
 
@@ -186,7 +257,7 @@ birthDateForm.addEventListener('submit', function(e) {
     console.log(birthDateInput.value);
 
         createHtml();
-        answerPara.textContent = ("Il faut saisir une date");
+        answerPara.textContent = ("Il faut saisir une date valide");
     }
     else if (todayString === yourBirthDateTimeStamp){
         createHtml();
@@ -194,7 +265,7 @@ birthDateForm.addEventListener('submit', function(e) {
     }
     else if (todayString < yourBirthDateTimeStamp){
         createHtml();
-        answerPara.textContent = ("Vous êtes né dans le futur ???");
+        answerPara.textContent = ("Cette date est dans le futur !");
     }
     
     else {
