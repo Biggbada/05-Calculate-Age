@@ -170,46 +170,106 @@ function ageCalcul(yourBirthDate) {
         //and modulo gives us how many days in this week
         var yourAgeWeeksOld = Math.trunc(yourAgeDaysOld / 7);
         var yourAgeDaysOldEnd = yourAgeDaysOld % 7;
-
+        
         //Now we only need to display
-
-
+        
+        
         
         answerDiv.append(ageDetailedPara);
         ageDetailedPara.textContent = ("Vous avez ");
         ageDetailedPara.appendChild(ageDetailedSpan);
-        const place = document.getElementById('bloc-annees');
-        let i = 0;
-        console.log(ageYearsOld);
-        console.log(i);
-        place.textContent = (i);
-        
-        function pause(time) {
-            setTimeout(pause, time);
-        }
-        pause(3000);
-        console.log("la");
-        pause(3000);
-        pause(3000);
-        place.textContent = "hello";
-        pause(3000);
-        pause(3000);
-        pause(3000);
-        place.textContent = "bien ou bien";
-        function textRoller (elementToType, place) {
-            place.textContent = (i);
-            if (i < elementToType) {
-                pause(1000);
-                i++;place.textContent = (i);
-                setTimeout(textRoller, 1000);
-                textRoller((elementToType - i), place);
-                console.log('passage boucle');
-            }
-            else {
-                console.log('finito');
-            }
+        ageDetailedSpan.id = ('years-block');
+        ageDetailedPara.appendChild(ageMonthDetailedSpan);
+        ageMonthDetailedSpan.id = ('months-block');
+        // ageMonthDetailedSpan.textContent = (" et " + yourAgeMonthOld + " mois ");
+        ageDetailedPara.appendChild(ageWeeksDetailedSpan);
+        ageWeeksDetailedSpan.id = ('weeks-block');
+        // ageWeeksDetailedSpan.textContent = (yourAgeWeeksOld + " semaines ");
+        ageDetailedPara.appendChild(ageDaysDetailedSpan);
+        ageDaysDetailedSpan.id = ('days-block');
+// ageDaysDetailedSpan.textContent = (yourAgeDaysOldEnd + " jours ");
 
+
+        const place = document.getElementById('years-block');
+        const place2 = document.getElementById('months-block');
+        const place3 = document.getElementById('weeks-block');
+        const place4 = document.getElementById('days-block');
+        console.log(ageYearsOld);
+        
+        // function pause(time) {
+            //     setTimeout(pause, time);
+            // }
+            
+        var n = ageYearsOld;
+        var o = yourAgeMonthOld;
+        console.log(o);
+        var p = yourAgeWeeksOld;
+        var q = yourAgeDaysOld;
+        let cpt1 = 0;
+        let cpt2 = 0;
+        let cpt3 = 0;
+        let cpt4 = 0;
+        var duree = 3;
+        var delta = Math.ceil((duree * 1000) / n);
+        var delta2 = Math.ceil((duree * 1200) / o);
+        var delta3 = Math.ceil((duree * 1400) / p);
+        var delta4 = Math.ceil((duree * 1600) / q);
+        
+        
+        function countdown1 () {
+            console.log('boucle 1');
+            place.innerHTML = ++cpt1 + " ans ";
+            if(cpt1 < ageYearsOld) {
+                setTimeout(countdown1, delta);
+            }
         }
+        countdown1();
+        
+        function countdown2 () {
+            console.log('boucle 2');
+            place2.innerHTML = ++cpt2 + " mois  ";
+            if(cpt2 < o) {
+                setTimeout(countdown2, delta2);
+            }
+        }
+        countdown2();
+        
+        function countdown3 () {
+            console.log('boucle 3');
+            place3.innerHTML = ++cpt3 + " semaines et ";
+            if(cpt3 < p) {
+                setTimeout(countdown3, delta3);
+            }
+        }
+        countdown3();
+
+        console.log('boucle 4');
+        function countdown4 () {
+            place4.innerHTML = ++cpt4 + " jours";
+            if(cpt4 < q) {
+                setTimeout(countdown4, delta4);
+            }
+        }
+        countdown4();
+        
+        
+        
+        //     myElement = (i);
+        //     if (i < ageYearsOld) {
+        //         console.log('ici');
+        //         pause(1000);
+        //         i++;
+        //         myElement = (i);
+        //         setTimeout(textRoller, 1000);
+        //         // textRoller((elementToType - i), place);
+        //         console.log('passage boucle');
+        //         textRoller(ageYearsOld, ageDetailedSpan);
+        //     }
+        //     else {
+        //         console.log('finito');
+        //     }
+
+        // }
 
         // textRoller(ageYearsOld, ageDetailedSpan);
 
@@ -235,13 +295,6 @@ function ageCalcul(yourBirthDate) {
 
 
 
-                ageDetailedPara.appendChild(ageMonthDetailedSpan);
-                ageMonthDetailedSpan.textContent = (" et " + yourAgeMonthOld + " mois ");
-                ageDetailedPara.appendChild(ageWeeksDetailedSpan);
-        ageWeeksDetailedSpan.textContent = (yourAgeWeeksOld + " semaines ");
-        ageDetailedPara.appendChild(ageDaysDetailedSpan);
-        ageDaysDetailedSpan.textContent = (yourAgeDaysOldEnd + " jours ");
-        ageDetailedPara.appendChild(ageHoursDetailedSpan);
 
           
 
