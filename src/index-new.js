@@ -4,10 +4,16 @@ let today = new Date();
 today.setHours(2, 0, 0, 0);
 let todayString = Date.parse(today);
 todayDate = today.toDateString();
+let options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
 
 //We display today date
 const todayDisplayer = document.getElementById('today-displayer');
-todayDisplayer.textContent = todayDate;
+todayDisplayer.textContent = today.toLocaleDateString("fr-FR", options);
 const todayTimestampDisplayer = document.getElementById('today-timestamp-displayer');
 todayTimestampDisplayer.textContent = todayString;
 
@@ -94,7 +100,7 @@ function ageCalcul(yourBirthDate) {
         //we get the birth date of the input and convert it to an object to compare it with today date object 
         let yourBirthDateObject = new Date(yourBirthDate);
         let yourBirthDateTimeStamp = Date.parse(yourBirthDate);
-        let yourBirthDateShortDate = yourBirthDateObject.toDateString();
+        let yourBirthDateShortDate = yourBirthDateObject.toLocaleDateString("fr-FR", options);
         //We display submited birth date
         answerSpan.textContent = (yourBirthDateShortDate);
         answerDiv.appendChild(dateStringPara);
@@ -131,13 +137,11 @@ function ageCalcul(yourBirthDate) {
             
         }
         else if (todayMonth == birthMonth && todayDay <= birthDay) {
-            console.log('ici');
             var ageYearsOld = todayYear - birthYear - 1;
             var yourAgeMonthOld = 11;
             
         }
         else {
-            console.log("go");
             var ageYearsOld = todayYear - birthYear;
             var yourAgeMonthOld = todayMonth - birthMonth;
         }
@@ -145,21 +149,16 @@ function ageCalcul(yourBirthDate) {
         //to calculate how many days to obtain same day number than today day
         
         if (todayDay < birthDay) {
-            console.log("go");
             if (isBissextile(todayYear) && (todayMonth === 1)) {
-                console.log("go");
                 var yourAgeDaysOld = 29 - birthDay + todayDay;
-                console.log("go");
             }
             else if (isBissextile(todayYear = false) && (todayMonth === 1)) {
-                console.log("go");
                 var yourAgeDaysOld = 28 - birthDay + todayDay;
             }
             else {
                 var yourAgeDaysOld = daysThisMonth(lastMonth, todayYear) - birthDay + todayDay;
                 //if today day is inferior than birth day, we must substract 1 month 
                 yourAgeMonthOld -= 1;
-            console.log(daysThisMonth(lastMonth, todayYear) - todayDay);
             }            
         }//if not, we only substract days
         else {
@@ -194,7 +193,6 @@ function ageCalcul(yourBirthDate) {
         const place2 = document.getElementById('months-block');
         const place3 = document.getElementById('weeks-block');
         const place4 = document.getElementById('days-block');
-        console.log(ageYearsOld);
         
         // function pause(time) {
             //     setTimeout(pause, time);
@@ -202,7 +200,6 @@ function ageCalcul(yourBirthDate) {
             
         var n = ageYearsOld;
         var o = yourAgeMonthOld;
-        console.log(o);
         var p = yourAgeWeeksOld;
         var q = yourAgeDaysOld;
         let cpt1 = 0;
@@ -217,7 +214,6 @@ function ageCalcul(yourBirthDate) {
         
         
         function countdown1 () {
-            console.log('boucle 1');
             place.innerHTML = ++cpt1 + " ans ";
             if(cpt1 < ageYearsOld) {
                 setTimeout(countdown1, delta);
@@ -226,7 +222,6 @@ function ageCalcul(yourBirthDate) {
         countdown1();
         
         function countdown2 () {
-            console.log('boucle 2');
             place2.innerHTML = ++cpt2 + " mois  ";
             if(cpt2 < o) {
                 setTimeout(countdown2, delta2);
@@ -235,7 +230,6 @@ function ageCalcul(yourBirthDate) {
         countdown2();
         
         function countdown3 () {
-            console.log('boucle 3');
             place3.innerHTML = ++cpt3 + " semaines et ";
             if(cpt3 < p) {
                 setTimeout(countdown3, delta3);
@@ -243,7 +237,6 @@ function ageCalcul(yourBirthDate) {
         }
         countdown3();
 
-        console.log('boucle 4');
         function countdown4 () {
             place4.innerHTML = ++cpt4 + " jours";
             if(cpt4 < q) {
@@ -251,52 +244,6 @@ function ageCalcul(yourBirthDate) {
             }
         }
         countdown4();
-        
-        
-        
-        //     myElement = (i);
-        //     if (i < ageYearsOld) {
-        //         console.log('ici');
-        //         pause(1000);
-        //         i++;
-        //         myElement = (i);
-        //         setTimeout(textRoller, 1000);
-        //         // textRoller((elementToType - i), place);
-        //         console.log('passage boucle');
-        //         textRoller(ageYearsOld, ageDetailedSpan);
-        //     }
-        //     else {
-        //         console.log('finito');
-        //     }
-
-        // }
-
-        // textRoller(ageYearsOld, ageDetailedSpan);
-
-        // function typeWriter(elementToType, place) {
-        //         for (let i = 0; i < elementToType; i++) {
-        //                 console.log(i);
-        //                 place.textContent = (i);
-        //                 setTimeout(typeWriter, 10000);
-        //             } 
-        //         }
-                
-                // for (i = 0;i < ageYearsOld.toString.length; i++) {
-                    
-                //     setTimeout(function () {
-                //         ageDetailedSpan.textContent = (i);
-                //         console.log(i);
-                //         i++;
-                //         console.log(i);
-                //     }, 100); 
-                //    };
-
-
-
-
-
-
-          
 
 }
 
@@ -307,7 +254,6 @@ birthDateForm.addEventListener('submit', function(e) {
     e.preventDefault();
     let yourBirthDateTimeStamp = Date.parse(birthDateInput.value);
     if (birthDateInput.value == "") {
-    console.log(birthDateInput.value);
 
         createHtml();
         answerPara.textContent = ("Il faut saisir une date valide");
@@ -322,7 +268,6 @@ birthDateForm.addEventListener('submit', function(e) {
     }
     
     else {
-    console.log(birthDateInput.value);
 
         ageCalcul(birthDateInput.value);
         
